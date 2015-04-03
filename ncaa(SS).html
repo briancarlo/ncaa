@@ -40,73 +40,78 @@
 
 
 			
-			var dataset = [		
-				[85,77,1,"First Round"],
-				[68,59,15,"First Round"],
-				[76,59,9,"First Round"],
-				[75,77,7,"First Round"],
-				[71,78,11,"First Round"],
-				[67,86,5,"First Round"],
-				[56,49,1,"First Round"],
-				[64,37,15,"First Round"],
-				[76,66,11,"First Round"],
-				[74,60,5,"First Round"],
-				[93,75,11,"First Round"],
-				[79,77,5,"First Round"],
-				[71,66,1,"First Round"],
-				[70,59,15,"First Round"],
-				[80,69,13,"First Round"],
-				[53,58,3,"First Round"],
-				[57,40,13,"First Round"],
-				[87,85,3,"First Round"],
-				[71,64,9,"First Round"],
-				[83,80,7,"First Round"],
-				[75,35,13,"First Round"],
-				[87,68,3,"First Round"],
-				[73,69,9,"First Round"],
-				[75,80,7,"First Round"],
-				[93,78,9,"First Round"],
-				[57,61,7,"First Round"],
-				[48,77,1,"First Round"],
-				[67,55,15,"First Round"],
-				[73,53,5,"First Round"],
-				[89,81,3,"First Round"],
-				[77,53,11,"First Round"],
-				[59,60,5,"First Round"],
-				[83,63,3,"Second Round"],
-				[76,78,7,"Second Round"],
-				[55,85,3,"Second Round"],
-				[84,61,7,"Second Round"],
-				[85,83,3,"Second Round"],
-				[78,60,7,"Second Round"],
-				[57,60,8,"Second Round"],
-				[77,60,8,"Second Round"],
-				[65,77,5,"Second Round"],
-				[80,73,8,"Second Round"],
-				[85,77,5,"Second Round"],
-				[79,65,5,"Second Round"],
-				[63,44,8,"Second Round"],
-				[53,55,8,"Second Round"],
-				[66,51,1,"Second Round"],
-				[61,45,8,"Second Round"],
-				[69,74,4,"Sweet Sixteen"],
-				[73,71,9,"Sweet Sixteen"],
-				[59,61,3,"Sweet Sixteen"],
-				[76,81,4,"Sweet Sixteen"],
-				[69,52,4,"Sweet Sixteen"],
-				[70,64,3,"Sweet Sixteen"],
-				[72,82,1,"Sweet Sixteen"],
-				[79,68,3,"Sweet Sixteen"],
-				[72,75,6,"Elite Eight"],
-				[54,60,3,"Elite Eight"],
-				[63,64,1,"Elite Eight"],
-				[62,52,10,"Elite Eight"],
-				[73,74,6,"Final Four"],
-				[53,63,6,"Final Four"],
-				[60,54,1,"Championship"]
+			var dataset = {
+				"2014": [		
+					[85,77,1,"First Round"],
+					[68,59,15,"First Round"],
+					[76,59,9,"First Round"],
+					[75,77,7,"First Round"],
+					[71,78,11,"First Round"],
+					[67,86,5,"First Round"],
+					[56,49,1,"First Round"],
+					[64,37,15,"First Round"],
+					[76,66,11,"First Round"],
+					[74,60,5,"First Round"],
+					[93,75,11,"First Round"],
+					[79,77,5,"First Round"],
+					[71,66,1,"First Round"],
+					[70,59,15,"First Round"],
+					[80,69,13,"First Round"],
+					[53,58,3,"First Round"],
+					[57,40,13,"First Round"],
+					[87,85,3,"First Round"],
+					[71,64,9,"First Round"],
+					[83,80,7,"First Round"],
+					[75,35,13,"First Round"],
+					[87,68,3,"First Round"],
+					[73,69,9,"First Round"],
+					[75,80,7,"First Round"],
+					[93,78,9,"First Round"],
+					[57,61,7,"First Round"],
+					[48,77,1,"First Round"],
+					[67,55,15,"First Round"],
+					[73,53,5,"First Round"],
+					[89,81,3,"First Round"],
+					[77,53,11,"First Round"],
+					[59,60,5,"First Round"],
+					[83,63,3,"Second Round"],
+					[76,78,7,"Second Round"],
+					[55,85,3,"Second Round"],
+					[84,61,7,"Second Round"],
+					[85,83,3,"Second Round"],
+					[78,60,7,"Second Round"],
+					[57,60,8,"Second Round"],
+					[77,60,8,"Second Round"],
+					[65,77,5,"Second Round"],
+					[80,73,8,"Second Round"],
+					[85,77,5,"Second Round"],
+					[79,65,5,"Second Round"],
+					[63,44,8,"Second Round"],
+					[53,55,8,"Second Round"],
+					[66,51,1,"Second Round"],
+					[61,45,8,"Second Round"],
+					[69,74,4,"Sweet Sixteen"],
+					[73,71,9,"Sweet Sixteen"],
+					[59,61,3,"Sweet Sixteen"],
+					[76,81,4,"Sweet Sixteen"],
+					[69,52,4,"Sweet Sixteen"],
+					[70,64,3,"Sweet Sixteen"],
+					[72,82,1,"Sweet Sixteen"],
+					[79,68,3,"Sweet Sixteen"],
+					[72,75,6,"Elite Eight"],
+					[54,60,3,"Elite Eight"],
+					[63,64,1,"Elite Eight"],
+					[62,52,10,"Elite Eight"],
+					[73,74,6,"Final Four"],
+					[53,63,6,"Final Four"],
+					[60,54,1,"Championship"]
+				],
+				"2013": [
+					[85,77,1,"First Round"],
+				]
+			};
 
-			];
-
+			var year = "2014"
 			var padding = 60;
 			var w = 550;
 			var h = 550;
@@ -173,7 +178,7 @@
 			    color = d3.scale.category10();
 
 			var circle = svg.selectAll("circle")
-				.data(dataset)
+				.data(dataset[year])
 				.enter()
 				.append("circle")
 				.attr("cx", function(d) {
@@ -246,6 +251,8 @@
 				});
 		      
 
+
+
 			legend.append("text")
    				  .attr("x", 410)
 				  .attr("y", 309+60)
@@ -253,7 +260,16 @@
 			      .text(function(d) { return d; });
 
 		</script>
-		<input id="slider1" type="range" min="8" max="14" step="1" value="14"/>
+		<label for="fader">Year</label>
+		<input id="slider1" type="range" min="2008" max="2014" step="1" value="2014" oninput="outputUpdate(value)">
+		<output for="fader" id="year">2014</output>
+		<script>
+			function outputUpdate(i) {
+				year = String(i);
+				document.querySelector('#year').innerHTML = i;
+			}
+		</script>
+
 
 	</body>
 </html>
