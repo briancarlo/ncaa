@@ -23,14 +23,21 @@
 				  height: 28px;
 				  pointer-events: none;
 			}
+
+			.legend rect {
+/*				fill:white;
+				stroke:black;
+				opacity:0.8;*/
+				font-size: 12px;
+			}
+
 		</style>
 	</head>
 	<body>
 		<script type="text/javascript">
 
 
-			var w = 500;
-			var h = 500;
+
 			
 			var dataset = [		
 				[60,54,1,6],
@@ -98,58 +105,24 @@
 				[59,60,5,1]
 			];
 
+			var padding = 60;
+			var w = 500;
+			var h = 500;
+
 			var svg = d3.select("body")
 						.append("svg")
 						.attr("width", w)
 						.attr("height", h)
 
-			var padding = 60;
-
-
 			var xScale = d3.scale.linear()
 								// .domain([30, d3.max(dataset, function(d) { return d[1]; })])
 								.domain([30, 100])
-
                      			.range([padding, w - padding]);
 
 			var yScale = d3.scale.linear()
 			                     // .domain([30, d3.max(dataset, function(d) { return d[0]; })])
  								.domain([30, 100])
-
-			                     .range([h - padding, padding]);
-
-			// setup fill color
-			var cValue = function(d) { return d[3];},
-			    color = d3.scale.category10();
-
-			svg.selectAll("circle")
-				.data(dataset)
-				.enter()
-				.append("circle")
-				.attr("cx", function(d) {
-					return xScale(d[1]);
-				})
-				.attr("cy", function(d) {
-					return yScale(d[0]);
-				})
-				.attr("r", function(d) {
-					return (5*(Math.log(d[2])/2));
-					// return 5;
-
-				})
-      			.style("fill", function(d) { return color(cValue(d));})
-      			.on("mouseover", function(d) {
-          			tooltip.transition()
-               			.duration(200)
-               			.style("opacity", .9);
-          			tooltip.html(dataset[0] + "<br/> " + d[1])
-               			.style("left", (d3.event.pageX + 5) + "px")
-               			.style("top", (d3.event.pageY - 28) + "px");
-      			})
-      			.on("mouseout", function(d) {
-          			tooltip.transition()
-               		.duration(500)
-               		.style("opacity", 0); });
+			                    .range([h - padding, padding]);
 
       		var xAxis = d3.svg.axis()
       						.scale(xScale)
@@ -160,17 +133,6 @@
       						.scale(yScale)
       						.orient("left")
       						.ticks(9);
-
-      		svg.append("g")
-      			.attr("class","axis")
-      			.attr("transform","translate(0," + (h - padding) + ")")
-    			.call(xAxis);
-
-     		svg.append("g")
-      			.attr("class","axis")
-      			.attr("transform", "translate(" + padding + ",0)")
-    			.call(yAxis);
-
 
 			var line = svg.append("line")
 		 				.attr("x1", 60)
@@ -196,6 +158,76 @@
 					    .attr("x", -105)
 					    .attr("transform", "rotate(-90)")
 					    .text("Favorite Score");
+
+
+
+
+			// setup fill color
+			var cValue = function(d) { return d[3];},
+			    color = d3.scale.category10();
+
+			svg.selectAll("circle")
+				.data(dataset)
+				.enter()
+				.append("circle")
+				.attr("cx", function(d) {
+					return xScale(d[1]);
+				})
+				.attr("cy", function(d) {
+					return yScale(d[0]);
+				})
+				.attr("r", function(d) {
+					return (5*(Math.log(d[2])/2));
+					// return 5;
+				})
+      			.style("fill", function(d) { return color(cValue(d));})
+      			.on("mouseover", function(d) {
+          			tooltip.transition()
+               			.duration(200)
+               			.style("opacity", .9);
+          			tooltip.html(dataset[0] + "<br/> " + d[1])
+               			.style("left", (d3.event.pageX + 5) + "px")
+               			.style("top", (d3.event.pageY - 28) + "px");
+      			})
+      			.on("mouseout", function(d) {
+          			tooltip.transition()
+               		.duration(500)
+               		.style("opacity", 0); });
+
+
+      		svg.append("g")
+      			.attr("class","axis")
+      			.attr("transform","translate(0," + (h - padding) + ")")
+    			.call(xAxis);
+
+     		svg.append("g")
+      			.attr("class","axis")
+      			.attr("transform", "translate(" + padding + ",0)")
+    			.call(yAxis);
+
+			// var legend = d3.select("body").append("svg")
+			var legend = svg.append("g")
+				.attr("class", "legend")
+				.attr("width", 50)
+				.attr("height", 50)
+				.selectAll("g")
+				.data(color.domain())
+				.enter().append("g")
+				.attr("transform", function(d, i) { return "translate(0," + i * 20  + ")"; });
+
+			  legend.append("rect")
+			      .attr("width", 18)
+			      .attr("height", 18)
+				  .attr("x", 420)
+				  .attr("y", 300-20)
+
+			      .style("fill", color);
+
+			  legend.append("text")
+   				  .attr("x", 405)
+				  .attr("y", 309-20)
+			      .attr("dy", ".35em")
+			      .text(function(d) { return d; });
 
 		</script>
 	</body>
