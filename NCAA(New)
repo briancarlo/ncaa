@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title> NCAA March Madness </title>
+		<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+		<script src="html5-dataset.js"></script>
+		<style type="text/css">
+			.axis path,
+			.axis line {
+				fill: none;
+				stroke: black;
+				shape-rendering: crispEdges;
+			}
+			
+			.axis text {
+				font-family: sans-serif;
+				font-size: 10px;
+			}	
+			.tooltip {
+				  position: absolute;
+				  width: 200px;
+				  height: 28px;
+				  pointer-events: none;
+			}
+			.legend rect {
+/*				fill:white;
+				stroke:black;
+				opacity:0.8;*/
+				font-size: 12px;
+			}
+		</style>
+	</head>
+	<body>
+		<script type="text/javascript">
+			
+			var dataset = {
+				"2014": [		
+						[60,54,1,'Championship','UConn','Kentucky'],
+						[73,74,6,'Final Four','Wisconsin','Kentucky'],
+						[53,63,6,'Final Four','Florida','UConn'],
+						[72,75,6,'Elite Eight','Michigan','Kentucky'],
+						[54,60,3,'Elite Eight','Michigan St.','UConn'],
+						[63,64,1,'Elite Eight','Arizona','Wisconsin'],
+						[62,52,10,'Elite Eight','Florida','Dayton'],
+						[69,74,4,'Sweet Sixteen','Louisville','Kentucky'],
+						[73,71,9,'Sweet Sixteen','Michigan','Tennessee'],
+						[59,61,3,'Sweet Sixteen','Virginia','Michigan St.'],
+						[76,81,4,'Sweet Sixteen','Iowa St.','UConn'],
+						[69,52,4,'Sweet Sixteen','Wisconsin','Baylor'],
+						[70,64,3,'Sweet Sixteen','Arizona','San Diego St.'],
+						[72,82,1,'Sweet Sixteen','Stanford','Dayton'],
+						[79,68,3,'Sweet Sixteen','Florida','UCLA'],
+						[83,63,3,'Second Round','Tennessee','Mercer'],
+						[76,78,7,'Second Round','Wichita St.','Kentucky'],
+						[55,85,3,'Second Round','Creighton','Baylor'],
+						[84,61,7,'Second Round','Arizona','Gonzaga'],
+						[85,83,3,'Second Round','Iowa St.','North Carolina'],
+						[78,60,7,'Second Round','Virginia','Memphis'],
+						[57,60,8,'Second Round','Kansas','Stanford'],
+						[77,60,8,'Second Round','UCLA','Stephen F. Austin'],
+						[65,77,5,'Second Round','Villanova','UConn'],
+						[80,73,8,'Second Round','Michigan St.','Harvard'],
+						[85,77,5,'Second Round','Wisconsin','Oregon'],
+						[79,65,5,'Second Round','Michigan','Texas'],
+						[63,44,8,'Second Round','San Diego St.','North Dakota St.'],
+						[53,55,8,'Second Round','Syracuse','Dayton'],
+						[66,51,1,'Second Round','Louisville','Saint Louis'],
+						[61,45,8,'Second Round','Florida','Pittsburgh'],
+						[85,77,1,'First Round','Gonzaga','Oklahoma St.'],
+						[68,59,15,'First Round','Arizona','Weber St.'],
+						[76,59,9,'First Round','UCLA','Tulsa'],
+						[75,77,7,'First Round','VCU','Stephen F. Austin'],
+						[71,78,11,'First Round','Duke','Mercer'],
+						[67,86,5,'First Round','Massachusetts','Tennessee'],
+						[56,49,1,'First Round','Kentucky','Kansas St.'],
+						[64,37,15,'First Round','Wichita St.','Cal Poly'],
+						[76,66,11,'First Round','Creighton','La.-Lafayette'],
+						[74,60,5,'First Round','Baylor','Nebraska'],
+						[93,75,11,'First Round','Iowa St.','N.C. Central'],
+						[79,77,5,'First Round','North Carolina','Providence'],
+						[71,66,1,'First Round','Memphis','George Washington'],
+						[70,59,15,'First Round','Virginia','Coastal Caro.'],
+						[80,69,13,'First Round','Kansas','Eastern Ky.'],
+						[53,58,3,'First Round','New Mexico','Stanford'],
+						[57,40,13,'First Round','Michigan','Wofford'],
+						[87,85,3,'First Round','Texas','Arizona St.'],
+						[71,64,9,'First Round','Louisville','Manhattan'],
+						[83,80,7,'First Round','Saint Louis','North Carolina St.'],
+						[75,35,13,'First Round','Wisconsin','American'],
+						[87,68,3,'First Round','Oregon','BYU'],
+						[73,69,9,'First Round','San Diego St.','New Mexico St.'],
+						[75,80,7,'First Round','Oklahoma','North Dakota St.'],
+						[93,78,9,'First Round','Michigan St.','Delaware'],
+						[57,61,7,'First Round','Cincinnati','Harvard'],
+						[48,77,1,'First Round','Colorado','Pittsburgh'],
+						[67,55,15,'First Round','Florida','Albany (NY)'],
+						[73,53,5,'First Round','Villanova','Milwaukee'],
+						[89,81,3,'First Round','UConn', "Saint Joseph's"],
+						[77,53,11,'First Round','Syracuse','Western Mich.'],
+						[59,60,5,'First Round','Ohio St.','Dayton'],
+				],
+				"2013": [
+					[85,77,1,"First Round"],
+				]
+			};
+			d3.select('#chart svg')
+  				.append("text")
+  				.attr("x", 200)             
+  				.attr("y", 100)
+  				.attr("text-anchor", "middle")  
+  				.text("Sample Charts");
+			var year = "2014"
+			var padding = 60;
+			var w = 550;
+			var h = 550;
+			var svg = d3.select("body")
+						.append("svg")
+						.attr("width", w)
+						.attr("height", h)
+			var xScale = d3.scale.linear()
+								// .domain([30, d3.max(dataset, function(d) { return d[1]; })])
+								.domain([30, 100])
+                     			.range([padding, w - padding]);
+			var yScale = d3.scale.linear()
+			                     // .domain([30, d3.max(dataset, function(d) { return d[0]; })])
+ 								.domain([30, 100])
+			                    .range([h - padding, padding]);
+      		var xAxis = d3.svg.axis()
+      						.scale(xScale)
+      						.orient("bottom")
+      						.ticks(9);
+      		var yAxis = d3.svg.axis()
+      						.scale(yScale)
+      						.orient("left")
+      						.ticks(9);
+			var line = svg.append("line")
+		 				.attr("x1", padding)
+		                .attr("y1", h-padding)
+		                .attr("x2", h-padding)
+		                .attr("y2", padding)
+		                .attr("stroke-width", 0.5)
+		                .style("stroke-dasharray", ("5,3"))
+		                .attr("stroke", "black");
+    		var underdog = svg.append("text")
+					    .attr("class", "x label")
+					    .attr("text-anchor", "end")
+					    .attr("x", w - padding)
+					    .attr("y", h - 20)
+					    .text("Underdog Score");
+			var favorite = svg.append("text")
+							.attr("class", "y label")
+							.attr("text-anchor", "middle")
+							.attr("y", 20)
+							.attr("dy", 0)
+							.attr("x", -105)
+							.attr("transform", "rotate(-90)")
+							.text("Favorite Score");
+			var tooltip = d3.select("body").append("div")
+						    .attr("class", "tooltip")
+						    .style("opacity", 0);
+			// setup fill color
+			var cValue = function(d) { return d[3];},
+			    color = d3.scale.category10();
+			var circle = svg.selectAll("circle")
+				.data(dataset[year])
+				.enter()
+				.append("circle")
+				.attr("cx", function(d) {
+					return xScale(d[1]);
+				})
+				.attr("cy", function(d) {
+					return yScale(d[0]);
+				})
+				.attr("r", function(d) {
+					return (5*(Math.log(d[2])/2)+1.5);
+					// return 5;
+				})
+      			.style("fill", function(d) { return color(cValue(d));})
+		        .attr("stroke-width", 0.5)
+		        .attr("stroke", "black")
+                .attr("data-species", function(d) {
+                	return d[3];
+                })
+                .style("opacity", 0.85)
+      			.on("mouseover", function(d) {
+          			tooltip.transition()
+               			.duration(200)
+               			.style("opacity", .9);
+          			tooltip.html(d[0]+": "+d[4]+"<br/> "+d[1]+": "+d[5])
+               			.style("left", (d3.event.pageX + 5) + "px")
+               			.style("top", (d3.event.pageY - 28) + "px");
+      			})
+      			.on("mouseout", function(d) {
+          			tooltip.transition()
+               		.duration(600)
+               		.style("opacity", 0); });
+      		svg.append("g")
+      			.attr("class","axis")
+      			.attr("transform","translate(0," + (h - padding) + ")")
+    			.call(xAxis);
+     		svg.append("g")
+      			.attr("class","axis")
+      			.attr("transform", "translate(" + padding + ",0)")
+    			.call(yAxis);
+			// var legend = d3.select("body").append("svg")
+			var legend = svg.append("g")
+				.attr("class", "legend")
+				.attr("width", 50)
+				.attr("height", 50)
+				.selectAll("g")
+				.data(color.domain())
+				.enter().append("g")
+				.attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+			legend.append("rect")
+				.attr("width", 18)
+				.attr("height", 18)
+				.attr("x", 390)
+				.attr("y", 300+60)
+				.style("fill", color)
+                .style("opacity", 0.85)
+				.on("click", function (d) {
+					circle.filter(function () {
+						return this.dataset.species === d;
+					})
+					.transition().duration(750)
+					.style("opacity", function () {
+						console.log(this.style.opacity);
+						return (parseFloat(this.style.opacity)) ? 0 : 0.85;
+					});
+				});
+		      
+			legend.append("text")
+   				  .attr("x", 410)
+				  .attr("y", 309+60)
+			      .attr("dy", ".35em")
+			      .text(function(d) { return d; });
+		</script>
+		<label for="fader">Year</label>
+		<input id="slider1" type="range" min="2008" max="2014" step="1" value="2014" oninput="outputUpdate(value)">
+		<output for="fader" id="year">2014</output>
+		<script>
+			function outputUpdate(i) {
+				year = String(i);
+				document.querySelector('#year').innerHTML = i;
+			}
+		</script>
+
+
+	</body>
+</html>
