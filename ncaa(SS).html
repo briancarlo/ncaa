@@ -179,14 +179,14 @@
 					return yScale(d[0]);
 				})
 				.attr("r", function(d) {
-					return (5*(Math.log(d[2])/2));
+					return (5*(Math.log(d[2])/2)+1.5);
 					// return 5;
 				})
       			.style("fill", function(d) { return color(cValue(d));})
                 .attr("data-species", function(d) {
                   return d.species;
                 })
-                .style("opacity", 1);
+                .style("opacity", 0.85);
 
 
 
@@ -230,6 +230,7 @@
 				.attr("x", 390)
 				.attr("y", 300+60)
 				.style("fill", color)
+                .style("opacity", 0.85)
 				.on("click", function(d){
 					circle.filter(function () {
 						return this.dataset.species === d;
