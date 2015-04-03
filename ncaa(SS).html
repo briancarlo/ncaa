@@ -4,6 +4,7 @@
 		<meta charset="utf-8">
 		<title>D3 Demo: Making a scatterplot with SVG</title>
 		<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+		<script src="html5-dataset.js"></script>
 		<style type="text/css">
 
 			.axis path,
@@ -167,7 +168,7 @@
 			var cValue = function(d) { return d[3];},
 			    color = d3.scale.category10();
 
-			svg.selectAll("circle")
+			var circle = svg.selectAll("circle")
 				.data(dataset)
 				.enter()
 				.append("circle")
@@ -182,18 +183,25 @@
 					// return 5;
 				})
       			.style("fill", function(d) { return color(cValue(d));})
-      			.on("mouseover", function(d) {
-          			tooltip.transition()
-               			.duration(200)
-               			.style("opacity", .9);
-          			tooltip.html(dataset[0] + "<br/> " + d[1])
-               			.style("left", (d3.event.pageX + 5) + "px")
-               			.style("top", (d3.event.pageY - 28) + "px");
-      			})
-      			.on("mouseout", function(d) {
-          			tooltip.transition()
-               		.duration(500)
-               		.style("opacity", 0); });
+                .attr("data-species", function(d) {
+                  return d.species;
+                })
+                .style("opacity", 1);
+
+
+
+      			// .on("mouseover", function(d) {
+         //  			tooltip.transition()
+         //       			.duration(200)
+         //       			.style("opacity", .9);
+         //  			tooltip.html(dataset[0] + "<br/> " + d[1])
+         //       			.style("left", (d3.event.pageX + 5) + "px")
+         //       			.style("top", (d3.event.pageY - 28) + "px");
+      			// })
+      			// .on("mouseout", function(d) {
+         //  			tooltip.transition()
+         //       		.duration(500)
+         //       		.style("opacity", 0); });
 
 
       		svg.append("g")
@@ -217,12 +225,21 @@
 				.attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
 			legend.append("rect")
-			      .attr("width", 18)
-			      .attr("height", 18)
-				  .attr("x", 390)
-				  .attr("y", 300+60)
-
-			      .style("fill", color);
+				.attr("width", 18)
+				.attr("height", 18)
+				.attr("x", 390)
+				.attr("y", 300+60)
+				.style("fill", color)
+				.on("click", function(d){
+					circle.filter(function () {
+						return this.dataset.species === d;
+					})
+					.transition().duration(750)
+					.style("opacity", function () {
+						console.log(this.style.opacity);
+				              return (parseInt(this.style.opacity)) ? 0 : 1;
+					});
+				});			      
 
 			legend.append("text")
    				  .attr("x", 410)
