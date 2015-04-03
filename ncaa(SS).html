@@ -103,15 +103,19 @@
 						.attr("width", w)
 						.attr("height", h)
 
-			var padding = 100;
+			var padding = 60;
 
 
 			var xScale = d3.scale.linear()
-								.domain([20, d3.max(dataset, function(d) { return d[1]; })])
+								// .domain([30, d3.max(dataset, function(d) { return d[1]; })])
+								.domain([30, 100])
+
                      			.range([padding, w - padding]);
 
 			var yScale = d3.scale.linear()
-			                     .domain([20, d3.max(dataset, function(d) { return d[0]; })])
+			                     // .domain([30, d3.max(dataset, function(d) { return d[0]; })])
+ 								.domain([30, 100])
+
 			                     .range([h - padding, padding]);
 
 			// setup fill color
@@ -168,11 +172,6 @@
     			.call(yAxis);
 
 
-// var new_svg = d3.select("body")
-// 				.append("svg")
-// 				.attr("width",w)
-// 				.attr("height",h);
-
 			var line = svg.append("line")
 		 				.attr("x1", 0)
 		                .attr("y1", 500)
@@ -181,20 +180,21 @@
 		                .attr("stroke-width", 2)
 		                .attr("stroke", "black");
 
-    		svg.append("text")
-			    .attr("class", "x label")
-			    .attr("text-anchor", "end")
-			    .attr("x", w - 200)
-			    .attr("y", h - 50)
-			    .text("Underdog Score");
+    		var underdog = svg.append("text")
+					    .attr("class", "x label")
+					    .attr("text-anchor", "end")
+					    .attr("x", w - 60)
+					    .attr("y", h - 20)
+					    .text("Underdog Score");
 
-			svg.append("text")
-			    .attr("class", "y label")
-			    .attr("text-anchor", "middle")
-			    .attr("y", 80)
-			    .attr("dy", 0)
-			    .attr("transform", "rotate(-90)")
-			    .text("Favorite Score");
+			var favorite = svg.append("text")
+					    .attr("class", "y label")
+					    .attr("text-anchor", "middle")
+					    .attr("y", 20)
+					    .attr("dy", 0)
+					    .attr("x", -105)
+					    .attr("transform", "rotate(-90)")
+					    .text("Favorite Score");
 
 		</script>
 	</body>
