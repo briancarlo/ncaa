@@ -40,74 +40,75 @@
 
 			
 			var dataset = [		
-				[60,54,1,6],
-				[73,74,6,5],
-				[53,63,6,5],
-				[72,75,6,4],
-				[54,60,3,4],
-				[63,64,1,4],
-				[62,52,10,4],
-				[69,74,4,3],
-				[73,71,9,3],
-				[59,61,3,3],
-				[76,81,4,3],
-				[69,52,4,3],
-				[70,64,3,3],
-				[72,82,1,3],
-				[79,68,3,3],
-				[83,63,3,2],
-				[76,78,7,2],
-				[55,85,3,2],
-				[84,61,7,2],
-				[85,83,3,2],
-				[78,60,7,2],
-				[57,60,8,2],
-				[77,60,8,2],
-				[65,77,5,2],
-				[80,73,8,2],
-				[85,77,5,2],
-				[79,65,5,2],
-				[63,44,8,2],
-				[53,55,8,2],
-				[66,51,1,2],
-				[61,45,8,2],
-				[85,77,1,1],
-				[68,59,15,1],
-				[76,59,9,1],
-				[75,77,7,1],
-				[71,78,11,1],
-				[67,86,5,1],
-				[56,49,1,1],
-				[64,37,15,1],
-				[76,66,11,1],
-				[74,60,5,1],
-				[93,75,11,1],
-				[79,77,5,1],
-				[71,66,1,1],
-				[70,59,15,1],
-				[80,69,13,1],
-				[53,58,3,1],
-				[57,40,13,1],
-				[87,85,3,1],
-				[71,64,9,1],
-				[83,80,7,1],
-				[75,35,13,1],
-				[87,68,3,1],
-				[73,69,9,1],
-				[75,80,7,1],
-				[93,78,9,1],
-				[57,61,7,1],
-				[48,77,1,1],
-				[67,55,15,1],
-				[73,53,5,1],
-				[89,81,3,1],
-				[77,53,11,1],
-				[59,60,5,1]
+				[85,77,1,"First Round"],
+				[68,59,15,"First Round"],
+				[76,59,9,"First Round"],
+				[75,77,7,"First Round"],
+				[71,78,11,"First Round"],
+				[67,86,5,"First Round"],
+				[56,49,1,"First Round"],
+				[64,37,15,"First Round"],
+				[76,66,11,"First Round"],
+				[74,60,5,"First Round"],
+				[93,75,11,"First Round"],
+				[79,77,5,"First Round"],
+				[71,66,1,"First Round"],
+				[70,59,15,"First Round"],
+				[80,69,13,"First Round"],
+				[53,58,3,"First Round"],
+				[57,40,13,"First Round"],
+				[87,85,3,"First Round"],
+				[71,64,9,"First Round"],
+				[83,80,7,"First Round"],
+				[75,35,13,"First Round"],
+				[87,68,3,"First Round"],
+				[73,69,9,"First Round"],
+				[75,80,7,"First Round"],
+				[93,78,9,"First Round"],
+				[57,61,7,"First Round"],
+				[48,77,1,"First Round"],
+				[67,55,15,"First Round"],
+				[73,53,5,"First Round"],
+				[89,81,3,"First Round"],
+				[77,53,11,"First Round"],
+				[59,60,5,"First Round"],
+				[83,63,3,"Second Round"],
+				[76,78,7,"Second Round"],
+				[55,85,3,"Second Round"],
+				[84,61,7,"Second Round"],
+				[85,83,3,"Second Round"],
+				[78,60,7,"Second Round"],
+				[57,60,8,"Second Round"],
+				[77,60,8,"Second Round"],
+				[65,77,5,"Second Round"],
+				[80,73,8,"Second Round"],
+				[85,77,5,"Second Round"],
+				[79,65,5,"Second Round"],
+				[63,44,8,"Second Round"],
+				[53,55,8,"Second Round"],
+				[66,51,1,"Second Round"],
+				[61,45,8,"Second Round"],
+				[69,74,4,"Sweet Sixteen"],
+				[73,71,9,"Sweet Sixteen"],
+				[59,61,3,"Sweet Sixteen"],
+				[76,81,4,"Sweet Sixteen"],
+				[69,52,4,"Sweet Sixteen"],
+				[70,64,3,"Sweet Sixteen"],
+				[72,82,1,"Sweet Sixteen"],
+				[79,68,3,"Sweet Sixteen"],
+				[72,75,6,"Elite Eight"],
+				[54,60,3,"Elite Eight"],
+				[63,64,1,"Elite Eight"],
+				[62,52,10,"Elite Eight"],
+				[73,74,6,"Final Four"],
+				[53,63,6,"Final Four"],
+				[60,54,1,"Championship"]
+
 			];
 
 			var padding = 60;
-			var w = 500;
-			var h = 500;
+			var w = 550;
+			var h = 550;
 
 			var svg = d3.select("body")
 						.append("svg")
@@ -135,10 +136,10 @@
       						.ticks(9);
 
 			var line = svg.append("line")
-		 				.attr("x1", 60)
-		                .attr("y1", 440)
-		                .attr("x2", 440)
-		                .attr("y2", 60)
+		 				.attr("x1", padding)
+		                .attr("y1", h-padding)
+		                .attr("x2", h-padding)
+		                .attr("y2", padding)
 		                .attr("stroke-width", 1)
 		                .style("stroke-dasharray", ("5,3"))
 		                .attr("stroke", "black");
@@ -146,7 +147,7 @@
     		var underdog = svg.append("text")
 					    .attr("class", "x label")
 					    .attr("text-anchor", "end")
-					    .attr("x", w - 60)
+					    .attr("x", w - padding)
 					    .attr("y", h - 20)
 					    .text("Underdog Score");
 
@@ -213,19 +214,19 @@
 				.selectAll("g")
 				.data(color.domain())
 				.enter().append("g")
-				.attr("transform", function(d, i) { return "translate(0," + i * 20  + ")"; });
+				.attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
 			legend.append("rect")
 			      .attr("width", 18)
 			      .attr("height", 18)
-				  .attr("x", 420)
-				  .attr("y", 300-20)
+				  .attr("x", 390)
+				  .attr("y", 300+60)
 
 			      .style("fill", color);
 
 			legend.append("text")
-   				  .attr("x", 405)
-				  .attr("y", 309-20)
+   				  .attr("x", 410)
+				  .attr("y", 309+60)
 			      .attr("dy", ".35em")
 			      .text(function(d) { return d; });
 
