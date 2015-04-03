@@ -187,10 +187,12 @@
 					// return 5;
 				})
       			.style("fill", function(d) { return color(cValue(d));})
+		        .attr("stroke-width", 0.5)
+		        .attr("stroke", "black")
                 .attr("data-species", function(d) {
                 	return d[3];
                 })
-                .style("opacity", 1)
+                .style("opacity", 0.85)
       			.on("mouseover", function(d) {
           			tooltip.transition()
                			.duration(200)
@@ -201,7 +203,7 @@
       			})
       			.on("mouseout", function(d) {
           			tooltip.transition()
-               		.duration(500)
+               		.duration(600)
                		.style("opacity", 0); });
 
 
@@ -231,7 +233,7 @@
 				.attr("x", 390)
 				.attr("y", 300+60)
 				.style("fill", color)
-                .style("opacity", 1)
+                .style("opacity", 0.85)
 				.on("click", function (d) {
 					circle.filter(function () {
 						return this.dataset.species === d;
@@ -239,7 +241,7 @@
 					.transition().duration(750)
 					.style("opacity", function () {
 						console.log(this.style.opacity);
-						return (parseInt(this.style.opacity)) ? 0 : 1;
+						return (parseFloat(this.style.opacity)) ? 0 : 0.85;
 					});
 				});
 		      
