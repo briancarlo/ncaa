@@ -141,7 +141,7 @@
 		                .attr("y1", h-padding)
 		                .attr("x2", h-padding)
 		                .attr("y2", padding)
-		                .attr("stroke-width", 1)
+		                .attr("stroke-width", 0.5)
 		                .style("stroke-dasharray", ("5,3"))
 		                .attr("stroke", "black");
 
@@ -184,9 +184,9 @@
 				})
       			.style("fill", function(d) { return color(cValue(d));})
                 .attr("data-species", function(d) {
-                  return d.species;
+                	return d[3];
                 })
-                .style("opacity", 0.85);
+                .style("opacity", 1);
 
 
 
@@ -230,17 +230,18 @@
 				.attr("x", 390)
 				.attr("y", 300+60)
 				.style("fill", color)
-                .style("opacity", 0.85)
-				.on("click", function(d){
+                .style("opacity", 1)
+				.on("click", function (d) {
 					circle.filter(function () {
 						return this.dataset.species === d;
 					})
 					.transition().duration(750)
 					.style("opacity", function () {
 						console.log(this.style.opacity);
-				              return (parseInt(this.style.opacity)) ? 0 : 1;
+						return (parseInt(this.style.opacity)) ? 0 : 1;
 					});
-				});			      
+				});
+		      
 
 			legend.append("text")
    				  .attr("x", 410)
