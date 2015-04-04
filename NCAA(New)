@@ -29,6 +29,11 @@
 				opacity:0.8;*/
 				font-size: 12px;
 			}
+
+			.legend circle {
+				  fill: none;
+				  stroke: #ccc;
+				}
 		</style>
 	</head>
 	<body>
@@ -235,6 +240,21 @@
 				  .attr("y", 309+60)
 			      .attr("dy", ".35em")
 			      .text(function(d) { return d; });
+			var legend2 = svg.append("g")
+				    .attr("class", "legend")
+				    .attr("transform", "translate(" + (width - 50) + "," + (height - 20) + ")")
+				  .selectAll("g")
+				    .data([1e6, 5e6, 1e7])
+				  .enter().append("g");
+
+			legend2.append("circle")
+				    .attr("cy", function(d) { return -radius(d); })
+				    .attr("r", radius);
+
+			legend2.append("text")
+				    .attr("y", function(d) { return -2 * radius(d); })
+				    .attr("dy", "1.3em")
+				    .text(d3.format(".1s"));
 		</script>
 		<label for="fader">Year</label>
 		<input id="slider1" type="range" min="2008" max="2014" step="1" value="2014" oninput="outputUpdate(value)">
