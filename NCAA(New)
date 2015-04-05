@@ -114,7 +114,9 @@
 						[59,60,5,'First Round','Ohio St.','Dayton'],
 				],
 				"2013": [
-					[85,77,1,"First Round"],
+					[85,77,1,"First Round","a","b"],
+					[50,51,8,"Championship","a","b"],
+
 				]
 			};
 			d3.select('#chart svg')
@@ -263,17 +265,26 @@
 				    .attr("y", function(d) { return -2 * radius(d); })
 				    .attr("dy", "1.3em")
 				    .text(d3.format(".1s"));
+
+			function outputUpdate(i) {
+				document.querySelector('#year').innerHTML = i;
+				circle.data(dataset[String(i)])
+						.attr("cx", function(d) {
+							return xScale(d[1]);
+						})
+						.attr("cy", function(d) {
+							return yScale(d[0]);
+						})
+						.attr("r", function(d) {
+							return (5*(Math.log(d[2])/2)+1.5);
+							// return 5;
+						})
+						.transition.duration(300);
+			}
 		</script>
 		<label for="fader">Year</label>
 		<input id="slider1" type="range" min="2008" max="2014" step="1" value="2014" oninput="outputUpdate(value)">
 		<output for="fader" id="year">2014</output>
-		<script>
-			function outputUpdate(i) {
-				year = String(i);
-				document.querySelector('#year').innerHTML = i;
-			}
-		</script>
-
 
 	</body>
 </html>
