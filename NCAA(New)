@@ -48,6 +48,74 @@
 		<script type="text/javascript">
 			
 			var dataset = {
+
+				"2015": [
+					[0,0,0,"Championship","Wisconsin","Dook"],
+					[64,71,0,"Final Four","Kentucky","Wisconsin"],
+					[81,61,6,"Final Four","Duke","Michigan St."],
+					[70,76,3,"Elite Eight","Louisville","Michigan St."],
+					[66,52,1,"Elite Eight","Duke","Gonzaga"],
+					[85,78,1,"Elite Eight","Wisconsin","Arizona"],
+					[68,66,2,"Elite Eight","Kentucky","Notre Dame"],
+					[58,62,4,"Sweet Sixteen","Oklahoma","Michigan St."],
+					[75,65,4,"Sweet Sixteen","Louisville","North Carolina St."],
+					[63,57,4,"Sweet Sixteen","Duke","Utah"],
+					[74,62,9,"Sweet Sixteen","Gonzaga","UCLA"],
+					[68,60,4,"Sweet Sixteen","Arizona","Xavier"],
+					[79,72,3,"Sweet Sixteen","Wisconsin","North Carolina"],
+					[78,39,4,"Sweet Sixteen","Kentucky","West Virginia"],
+					[81,70,4,"Sweet Sixteen","Notre Dame","Wichita St."],
+					[87,68,5,"Second Round","Gonzaga","Iowa"],
+					[66,53,1,"Second Round","Louisville","UNI"],
+					[59,69,1,"Second Round","Maryland","West Virginia"],
+					[72,66,8,"Second Round","Oklahoma","Dayton"],
+					[72,65,7,"Second Round","Wisconsin","Oregon"],
+					[65,78,5,"Second Round","Kansas","Wichita St."],
+					[68,49,7,"Second Round","Duke","San Diego St."],
+					[54,60,5,"Second Round","Virginia","Michigan St."],
+					[67,64,3,"Second Round","Notre Dame","Butler"],
+					[68,71,7,"Second Round","Villanova","North Carolina St."],
+					[64,75,1,"Second Round","Georgetown","Utah"],
+					[73,58,8,"Second Round","Arizona","Ohio St."],
+					[64,51,7,"Second Round","Kentucky","Cincinnati"],
+					[92,75,3,"Second Round","UCLA","UAB"],
+					[87,78,1,"Second Round","North Carolina","Arkansas"],
+					[75,67,8,"Second Round","Xavier","Georgia St."],
+					[79,73,1,"First Round","Oregon","Oklahoma St."],
+					[53,66,5,"First Round","Providence","Dayton"],
+					[69,60,9,"First Round","Oklahoma","Albany"],
+					[65,62,9,"First Round","Maryland","Valparaiso"],
+					[68,62,7,"First Round","West Virginia","Buffalo"],
+					[83,52,3,"First Round","Iowa","Davidson"],
+					[86,76,13,"First Round","Gonzaga","North Dakota St."],
+					[57,55,9,"First Round","Louisville","UC Irvine"],
+					[71,54,7,"First Round","UNI","Wyoming"],
+					[86,72,15,"First Round","Wisconsin","Coastal Carolina"],
+					[81,76,3,"First Round","Wichita St.","Indiana"],
+					[75,56,13,"First Round","Kansas","New Mexico St."],
+					[76,64,1,"First Round","San Diego St.","St. John's (NY)"],
+					[85,56,15,"First Round","Duke","Robert Morris"],
+					[79,67,15,"First Round","Virginia","Belmont"],
+					[70,63,3,"First Round","Michigan St.","Georgia"],
+					[84,74,9,"First Round","Georgetown","Eastern Wash."],
+					[57,50,7,"First Round","Utah","Stephen F. Austin"],
+					[72,75,3,"First Round","VCU","Ohio St."],
+					[93,72,13,"First Round","Arizona","Texas Southern"],
+					[66,65,1,"First Round","North Carolina St.","LSU"],
+					[93,52,15,"First Round","Villanova","Lafayette"],
+					[56,48,5,"First Round","Butler","Texas"],
+					[69,65,11,"First Round","Notre Dame","Northeastern"],
+					[79,56,15,"First Round","Kentucky","Hampton"],
+					[66,65,1,"First Round","Cincinnati","Purdue"],
+					[59,60,5,"First Round","SMU","UCLA"],
+					[59,60,11,"First Round","Iowa St.","UAB"],
+					[56,53,7,"First Round","Arkansas","Wofford"],
+					[67,65,9,"First Round","North Carolina","Harvard"],
+					[76,57,5,"First Round","Xavier","Ole Miss"],
+					[56,57,11,"First Round","Baylor","Georgia St."],
+					],
+
+
 				"2014": [		
 						[60,54,1,'Championship','UConn','Kentucky'],
 						[73,74,6,'Final Four','Wisconsin','Kentucky'],
@@ -125,7 +193,7 @@
   				.attr("y", 100)
   				.attr("text-anchor", "middle")  
   				.text("Sample Charts");
-			var year = "2014"
+			var year = "2015"
 			var padding = 60;
 			var w = 550;
 			var h = 550;
@@ -283,8 +351,8 @@
 			}
 		</script>
 		<label for="fader">Year</label>
-		<input id="slider1" type="range" min="2008" max="2014" step="1" value="2014" oninput="outputUpdate(value)">
-		<output for="fader" id="year">2014</output>
+		<input id="slider1" type="range" min="2008" max="2015" step="1" value="2015" oninput="outputUpdate(value)">
+		<output for="fader" id="year">2015</output>
 
 	</body>
 </html>
