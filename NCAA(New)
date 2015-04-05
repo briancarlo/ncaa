@@ -19,10 +19,18 @@
 			}	
 			.tooltip {
 				  position: absolute;
-				  width: 200px;
-				  height: 28px;
+				  width: 170px;
+				  height: 32px;
 				  pointer-events: none;
-			}
+				  font-weight: bold;
+				background: lightgray;
+				text-align: center;
+				transition: opacity 0.2s;
+			    position: absolute;
+
+/*			    text-shadow:1px 1px 0px gray;
+*/
+				}
 			.legend rect {
 /*				fill:white;
 				stroke:black;
@@ -163,7 +171,7 @@
 							.text("Favorite Score");
 			var tooltip = d3.select("body").append("div")
 						    .attr("class", "tooltip")
-						    .style("opacity", 0);
+						    .style("opacity", 1);
 			// setup fill color
 			var cValue = function(d) { return d[3];},
 			    color = d3.scale.category10();
