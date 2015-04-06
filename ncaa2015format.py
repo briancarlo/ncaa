@@ -1,6 +1,6 @@
 import csv
 
-# f = open('ncaa2015.csv', 'rU')
+# f = open('ncaa2012.csv', 'rU')
 # reader = csv.reader(f)
 
 # scores = []
@@ -18,16 +18,16 @@ import csv
 # for score in scores:
 # 	print score
 
-# f = open("ncaa2015new.csv", "w")
+# f = open("ncaa2012new.csv", "w")
 # writer = csv.writer(f)
 # for score in scores:
 # 	writer.writerow(score)
 
-f = open('ncaa2015new.csv', 'rU')
+f = open('ncaa2012new.csv', 'rU')
 reader = csv.reader(f)
 
 
-f = open('ncaa2015final.txt', 'w')
+# f = open('ncaa2012final.txt', 'w')
 
 for line in reader:
 	line[3] = str(line[3])
