@@ -328,7 +328,7 @@
                 .attr("data-species", function(d) {
                 	return d[3];
                 })
-                .style("opacity", 0.85)
+                .style("opacity", 0)
       			.on("mouseover", function(d) {
           			tooltip.transition()
                			.duration(200)
@@ -341,6 +341,12 @@
           			tooltip.transition()
                		.duration(600)
                		.style("opacity", 0); });
+			// circle.transition()
+			//     .delay(function(d,i) { return i * 10; })
+			//     .duration(4000)
+			//     .style('opacity', 0.85);
+
+
       		svg.append("g")
       			.attr("class","axis")
       			.attr("transform","translate(0," + (h - padding) + ")")
@@ -399,7 +405,9 @@
 
 			function outputUpdate(i) {
 				document.querySelector('#year').innerHTML = i;
-				circle.data(dataset[String(i)])
+				circle
+					.transition().duration(400).style("opacity",0)
+					.data(dataset[String(i)])
 						.attr("cx", function(d) {
 							return xScale(d[1]);
 						})
@@ -409,8 +417,8 @@
 						.attr("r", function(d) {
 							return (5*(Math.log(d[2])/2)+1.5);
 							// return 5;
-						})
-						.transition.duration(300);
+						});
+						// .transition().duration(750);
 			}
 		</script>
 		<label for="fader">Year</label>
