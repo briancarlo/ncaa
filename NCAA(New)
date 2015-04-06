@@ -51,7 +51,7 @@
 		<div id="scroll" style="position:absolute;padding-left:180px;">
 			<label for="fader">2011</label>
 			<input id="slider1" type="range" min="2011" max="2015" step="1" value="2015" oninput="outputUpdate(value)">
-			<div id="big_year" style="position:absolute;padding-left:120px;padding-top:380px;font-size:100px;opacity:0.3;">
+			<div id="big_year" style="position:absolute;padding-left:120px;padding-top:380px;font-size:100px;opacity:0.3;z-index:-1">
 				<output for="fader" id="year">2015</output>
 			</div>
 			<label for="fader">2015</label>
@@ -359,7 +359,7 @@
 					[65,48,1,"Second Round","Richmond","Morehead St."],
 					[85,81,9,"First Round","Texas","Oakland"],
 					[68,65,3,"First Round","Washington","Georgia"],
-					[2,87,13,"First Round","North Carolina 1","Long Island"],
+					[102,87,13,"First Round","North Carolina 1","Long Island"],
 					[87,45,15,"First Round","Duke","Hampton"],
 					[75,45,1,"First Round","Michigan","Tennessee"],
 					[77,60,11,"First Round","Syracuse","Indiana St."],
@@ -438,15 +438,18 @@
 					    .attr("text-anchor", "end")
 					    .attr("x", 550 - padding)
 					    .attr("y", h - 20)
-					    .text("Underdog Score");
+					    .text("Underdog Score")
+					    .style("font-weight","bold");
 			var favorite = svg.append("text")
 							.attr("class", "y label")
 							.attr("text-anchor", "middle")
 							.attr("y", 20)
 							.attr("dy", 0)
-							.attr("x", -105)
+							.attr("x", -110)
 							.attr("transform", "rotate(-90)")
-							.text("Favorite Score");
+							.text("Favorite Score")
+							.style("font-weight","bold");
+
 			var tooltip = d3.select("body").append("div")
 						    .attr("class", "tooltip")
 						    .style("opacity", 1);
@@ -532,7 +535,7 @@
 				.attr("width", 18)
 				.attr("height", 18)
 				.attr("x", 550)
-				.attr("y", 270)
+				.attr("y", 270+25)
 				.style("fill", color)
                 .style("opacity", 0.7)
 				.on("click", function(d) {
@@ -548,13 +551,13 @@
 
 			legend.append("text")
    				  .attr("x", 572)
-				  .attr("y", 280)
+				  .attr("y", 280+25)
 			      .attr("dy", ".35em")
 			      .text(function(d) { return d; });
 
 			svg.append("text")
    				  .attr("x", 550)
-				  .attr("y", 260)
+				  .attr("y", 260+25)
 				  .text("Click to toggle")
 				  .style("font-size",12)
 				  .style("font-weight","bold")
@@ -566,10 +569,11 @@
 
 
 			var extra = 330
+			var yxtra = 25
 
 		    svg.append("text")
 		    	.attr("x",220+extra)
-		    	.attr("y",417)
+		    	.attr("y",417+yxtra)
 		    	.attr("dy", ".35em")
 		    	.text("Difference in team seeds")
 		    	.style("font-size",12)
@@ -577,42 +581,42 @@
 
 			svg.append("circle")
 				.attr("cx", 240+extra)
-				.attr("cy", 445)
+				.attr("cy", 445+yxtra)
 				.attr("r", (5*(Math.log((13+2.01)/2))+1.5))
 				.style("fill", "lightgray")
 		        .attr("stroke-width", 0.5).attr("stroke", "black")
 
 		    svg.append("text")
 		    	.attr("x",220+extra)
-		    	.attr("y",470)
+		    	.attr("y",470+yxtra)
 		    	.attr("dy", ".35em")
 		    	.text("15 vs. 2")
 		    	.style("font-size",12)
 
 			svg.append("circle")
 				.attr("cx", 286+extra)
-				.attr("cy", 446)
+				.attr("cy", 446+yxtra)
 				.attr("r", (5*(Math.log((4+2.01)/2))+1.5))
 				.style("fill", "lightgray")
 		        .attr("stroke-width", 0.5).attr("stroke", "black")
 
 		    svg.append("text")
 		    	.attr("x",270+extra)
-		    	.attr("y",470)
+		    	.attr("y",470+yxtra)
 		    	.attr("dy", ".35em")
 		    	.text("7 vs. 2")
 		    	.style("font-size",12)
 
 			svg.append("circle")
 				.attr("cx", 335+extra)
-				.attr("cy", 447)
+				.attr("cy", 447+yxtra)
 				.attr("r", (5*(Math.log((0+2.01)/2))+1.5))
 				.style("fill", "lightgray")
 		        .attr("stroke-width", 0.5).attr("stroke", "black")
 
 		    svg.append("text")
 		    	.attr("x",320+extra)
-		    	.attr("y",470)
+		    	.attr("y",470+yxtra)
 		    	.attr("dy", ".35em")
 		    	.text("2 vs. 2")
 		    	.style("font-size",12)
@@ -663,9 +667,9 @@
 			}
 		</script>
 
+		<div id="byline" style="position:absolute;padding-left:550px;margin-top:-35px;font-size:14px;font-weight:bold;">
+			By Brian Carlo and Shom Sarkar
+		</div>
 
-<!-- style="position:fixed;z-index:0;margin-right:-500;"
-style="margin-right:-400px"
-style="margin-right:-500px" -->
 	</body>
 </html>
