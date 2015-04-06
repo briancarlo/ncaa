@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title> NCAA March Madness </title>
+		<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+		<script src="html5-dataset.js"></script>
+		<style type="text/css">
+			.axis path,
+			.axis line {
+				fill: none;
+				stroke: black;
+				shape-rendering: crispEdges;
+			}
+			
+			.axis text {
+				font-family: sans-serif;
+				font-size: 10px;
+			}	
+			.tooltip {
+				  position: absolute;
+				  width: 170px;
+				  height: 32px;
+				  pointer-events: none;
+				  font-weight: bold;
+				background: lightgray;
+				text-align: center;
+				transition: opacity 0.2s;
+			    position: absolute;
+
+/*			    text-shadow:1px 1px 0px gray;
+*/
+				}
+			.legend rect {
+/*				fill:white;
+				stroke:black;
+				opacity:0.8;*/
+				font-size: 12px;
+			}
+
+			.legend circle {
+				  fill: none;
+				  stroke: #ccc;
+				}
+		</style>
+	</head>
+	<body>
+		<script type="text/javascript">
+			
+			var dataset = {
+				"2015": [
+					[0,0,0,"Championship","Wisconsin","Dook"],
+					[64,71,0,"Final Four","Kentucky","Wisconsin"],
+					[81,61,6,"Final Four","Duke","Michigan St."],
+					[70,76,3,"Elite Eight","Louisville","Michigan St."],
+					[66,52,1,"Elite Eight","Duke","Gonzaga"],
+					[85,78,1,"Elite Eight","Wisconsin","Arizona"],
+					[68,66,2,"Elite Eight","Kentucky","Notre Dame"],
+					[58,62,4,"Sweet Sixteen","Oklahoma","Michigan St."],
+					[75,65,4,"Sweet Sixteen","Louisville","North Carolina St."],
+					[63,57,4,"Sweet Sixteen","Duke","Utah"],
+					[74,62,9,"Sweet Sixteen","Gonzaga","UCLA"],
+					[68,60,4,"Sweet Sixteen","Arizona","Xavier"],
+					[79,72,3,"Sweet Sixteen","Wisconsin","North Carolina"],
+					[78,39,4,"Sweet Sixteen","Kentucky","West Virginia"],
+					[81,70,4,"Sweet Sixteen","Notre Dame","Wichita St."],
+					[87,68,5,"Second Round","Gonzaga","Iowa"],
+					[66,53,1,"Second Round","Louisville","UNI"],
+					[59,69,1,"Second Round","Maryland","West Virginia"],
+					[72,66,8,"Second Round","Oklahoma","Dayton"],
+					[72,65,7,"Second Round","Wisconsin","Oregon"],
+					[65,78,5,"Second Round","Kansas","Wichita St."],
+					[68,49,7,"Second Round","Duke","San Diego St."],
+					[54,60,5,"Second Round","Virginia","Michigan St."],
+					[67,64,3,"Second Round","Notre Dame","Butler"],
+					[68,71,7,"Second Round","Villanova","North Carolina St."],
+					[64,75,1,"Second Round","Georgetown","Utah"],
+					[73,58,8,"Second Round","Arizona","Ohio St."],
+					[64,51,7,"Second Round","Kentucky","Cincinnati"],
+					[92,75,3,"Second Round","UCLA","UAB"],
+					[87,78,1,"Second Round","North Carolina","Arkansas"],
+					[75,67,8,"Second Round","Xavier","Georgia St."],
+					[79,73,1,"First Round","Oregon","Oklahoma St."],
+					[53,66,5,"First Round","Providence","Dayton"],
+					[69,60,9,"First Round","Oklahoma","Albany"],
+					[65,62,9,"First Round","Maryland","Valparaiso"],
+					[68,62,7,"First Round","West Virginia","Buffalo"],
+					[83,52,3,"First Round","Iowa","Davidson"],
+					[86,76,13,"First Round","Gonzaga","North Dakota St."],
+					[57,55,9,"First Round","Louisville","UC Irvine"],
+					[71,54,7,"First Round","UNI","Wyoming"],
+					[86,72,15,"First Round","Wisconsin","Coastal Carolina"],
+					[81,76,3,"First Round","Wichita St.","Indiana"],
+					[75,56,13,"First Round","Kansas","New Mexico St."],
+					[76,64,1,"First Round","San Diego St.","St. John's (NY)"],
+					[85,56,15,"First Round","Duke","Robert Morris"],
+					[79,67,15,"First Round","Virginia","Belmont"],
+					[70,63,3,"First Round","Michigan St.","Georgia"],
+					[84,74,9,"First Round","Georgetown","Eastern Wash."],
+					[57,50,7,"First Round","Utah","Stephen F. Austin"],
+					[72,75,3,"First Round","VCU","Ohio St."],
+					[93,72,13,"First Round","Arizona","Texas Southern"],
+					[66,65,1,"First Round","North Carolina St.","LSU"],
+					[93,52,15,"First Round","Villanova","Lafayette"],
+					[56,48,5,"First Round","Butler","Texas"],
+					[69,65,11,"First Round","Notre Dame","Northeastern"],
+					[79,56,15,"First Round","Kentucky","Hampton"],
+					[66,65,1,"First Round","Cincinnati","Purdue"],
+					[59,60,5,"First Round","SMU","UCLA"],
+					[59,60,11,"First Round","Iowa St.","UAB"],
+					[56,53,7,"First Round","Arkansas","Wofford"],
+					[67,65,9,"First Round","North Carolina","Harvard"],
+					[76,57,5,"First Round","Xavier","Ole Miss"],
+					[56,57,11,"First Round","Baylor","Georgia St."],
+					],
+
+				"2014": [		
+					[60,54,1,'Championship','UConn','Kentucky'],
+					[73,74,6,'Final Four','Wisconsin','Kentucky'],
+					[53,63,6,'Final Four','Florida','UConn'],
+					[72,75,6,'Elite Eight','Michigan','Kentucky'],
+					[54,60,3,'Elite Eight','Michigan St.','UConn'],
+					[63,64,1,'Elite Eight','Arizona','Wisconsin'],
+					[62,52,10,'Elite Eight','Florida','Dayton'],
+					[69,74,4,'Sweet Sixteen','Louisville','Kentucky'],
+					[73,71,9,'Sweet Sixteen','Michigan','Tennessee'],
+					[59,61,3,'Sweet Sixteen','Virginia','Michigan St.'],
+					[76,81,4,'Sweet Sixteen','Iowa St.','UConn'],
+					[69,52,4,'Sweet Sixteen','Wisconsin','Baylor'],
+					[70,64,3,'Sweet Sixteen','Arizona','San Diego St.'],
+					[72,82,1,'Sweet Sixteen','Stanford','Dayton'],
+					[79,68,3,'Sweet Sixteen','Florida','UCLA'],
+					[83,63,3,'Second Round','Tennessee','Mercer'],
+					[76,78,7,'Second Round','Wichita St.','Kentucky'],
+					[55,85,3,'Second Round','Creighton','Baylor'],
+					[84,61,7,'Second Round','Arizona','Gonzaga'],
+					[85,83,3,'Second Round','Iowa St.','North Carolina'],
+					[78,60,7,'Second Round','Virginia','Memphis'],
+					[57,60,8,'Second Round','Kansas','Stanford'],
+					[77,60,8,'Second Round','UCLA','Stephen F. Austin'],
+					[65,77,5,'Second Round','Villanova','UConn'],
+					[80,73,8,'Second Round','Michigan St.','Harvard'],
+					[85,77,5,'Second Round','Wisconsin','Oregon'],
+					[79,65,5,'Second Round','Michigan','Texas'],
+					[63,44,8,'Second Round','San Diego St.','North Dakota St.'],
+					[53,55,8,'Second Round','Syracuse','Dayton'],
+					[66,51,1,'Second Round','Louisville','Saint Louis'],
+					[61,45,8,'Second Round','Florida','Pittsburgh'],
+					[85,77,1,'First Round','Gonzaga','Oklahoma St.'],
+					[68,59,15,'First Round','Arizona','Weber St.'],
+					[76,59,9,'First Round','UCLA','Tulsa'],
+					[75,77,7,'First Round','VCU','Stephen F. Austin'],
+					[71,78,11,'First Round','Duke','Mercer'],
+					[67,86,5,'First Round','Massachusetts','Tennessee'],
+					[56,49,1,'First Round','Kentucky','Kansas St.'],
+					[64,37,15,'First Round','Wichita St.','Cal Poly'],
+					[76,66,11,'First Round','Creighton','La.-Lafayette'],
+					[74,60,5,'First Round','Baylor','Nebraska'],
+					[93,75,11,'First Round','Iowa St.','N.C. Central'],
+					[79,77,5,'First Round','North Carolina','Providence'],
+					[71,66,1,'First Round','Memphis','George Washington'],
+					[70,59,15,'First Round','Virginia','Coastal Caro.'],
+					[80,69,13,'First Round','Kansas','Eastern Ky.'],
+					[53,58,3,'First Round','New Mexico','Stanford'],
+					[57,40,13,'First Round','Michigan','Wofford'],
+					[87,85,3,'First Round','Texas','Arizona St.'],
+					[71,64,9,'First Round','Louisville','Manhattan'],
+					[83,80,7,'First Round','Saint Louis','North Carolina St.'],
+					[75,35,13,'First Round','Wisconsin','American'],
+					[87,68,3,'First Round','Oregon','BYU'],
+					[73,69,9,'First Round','San Diego St.','New Mexico St.'],
+					[75,80,7,'First Round','Oklahoma','North Dakota St.'],
+					[93,78,9,'First Round','Michigan St.','Delaware'],
+					[57,61,7,'First Round','Cincinnati','Harvard'],
+					[48,77,1,'First Round','Colorado','Pittsburgh'],
+					[67,55,15,'First Round','Florida','Albany (NY)'],
+					[73,53,5,'First Round','Villanova','Milwaukee'],
+					[89,81,3,'First Round','UConn', "Saint Joseph's"],
+					[77,53,11,'First Round','Syracuse','Western Mich.'],
+					[59,60,5,'First Round','Ohio St.','Dayton'],
+					],
+
+				"2013": [
+					[82,76,3,'Championship','Louisville','Michigan'],
+					[61,56,0,'Final Four','Michigan','Syracuse'],
+					[72,68,8,'Final Four','Louisville','Wichita St.'],
+					[59,79,1,'Elite Eight','Florida','Michigan'],
+					[85,63,1,'Elite Eight','Louisville','Duke'],
+					[55,39,1,'Elite Eight','Syracuse','Marquette'],
+					[66,70,7,'Elite Eight','Ohio St.','Wichita St.'],
+					[62,50,12,'Sweet Sixteen','Florida','FGCU'],
+					[85,87,3,'Sweet Sixteen','Kansas','Michigan'],
+					[71,61,1,'Sweet Sixteen','Duke','Michigan St.'],
+					[77,69,11,'Sweet Sixteen','Louisville','Oregon'],
+					[61,71,1,'Sweet Sixteen','Miami (FL)','Marquette'],
+					[50,61,3,'Sweet Sixteen','Indiana','Syracuse'],
+					[73,70,4,'Sweet Sixteen','Ohio St.','Arizona'],
+					[72,58,4,'Sweet Sixteen','Wichita St.','La Salle'],
+					[63,59,5,'Second Round','Miami (FL)','Illinois'],
+					[58,52,8,'Second Round','Indiana','Temple'],
+					[71,81,8,'Second Round','San Diego St.','FGCU'],
+					[78,64,8,'Second Round','Florida','Minnesota'],
+					[70,58,7,'Second Round','Kansas','North Carolina'],
+					[78,75,8,'Second Round','Ohio St.','Iowa St.'],
+					[74,76,1,'Second Round','Ole Miss','La Salle'],
+					[66,50,5,'Second Round','Duke','Creighton'],
+					[74,72,3,'Second Round','Marquette','Butler'],
+					[66,60,8,'Second Round','Syracuse','California'],
+					[78,53,1,'Second Round','Michigan','VCU'],
+					[74,51,8,'Second Round','Arizona','Harvard'],
+					[70,76,8,'Second Round','Gonzaga','Wichita St.'],
+					[70,48,3,'Second Round','Michigan St.','Memphis'],
+					[57,74,8,'Second Round','Saint Louis','Oregon'],
+					[82,56,7,'Second Round','Louisville','Colorado St.'],
+					[63,83,5,'First Round','UCLA','Minnesota'],
+					[78,49,13,'First Round','Miami (FL)','Pacific'],
+					[57,49,3,'First Round','Illinois','Colorado'],
+					[72,76,1,'First Round','North Carolina St.','Temple'],
+					[83,62,15,'First Round','Indiana','James Madison'],
+					[79,47,11,'First Round','Florida','Northwestern St.'],
+					[78,71,1,'First Round','North Carolina','Villanova'],
+					[64,57,15,'First Round','Kansas','Western Ky.'],
+					[95,70,13,'First Round','Ohio St.','Iona'],
+					[58,76,3,'First Round','Notre Dame','Iowa St.'],
+					[61,63,9,'First Round','Kansas St.','La Salle'],
+					[46,57,7,'First Round','Wisconsin','Ole Miss'],
+					[70,55,3,'First Round','San Diego St.','Oklahoma'],
+					[68,78,13,'First Round','Georgetown','FGCU'],
+					[67,63,3,'First Round','Creighton','Cincinnati'],
+					[73,61,13,'First Round','Duke','Albany (NY)'],
+					[71,56,9,'First Round','Michigan','South Dakota St.'],
+					[59,58,11,'First Round','Marquette','Davidson'],
+					[81,34,9,'First Round','Syracuse','Montana'],
+					[88,42,7,'First Round','VCU','Akron'],
+					[62,68,11,'First Round','New Mexico','Harvard'],
+					[81,64,5,'First Round','Arizona','Belmont'],
+					[73,55,1,'First Round','Wichita St.','Pittsburgh'],
+					[64,58,15,'First Round','Gonzaga','Southern U.'],
+					[54,52,5,'First Round','Memphis',"St. Mary's (CA)"],
+					[64,44,9,'First Round','Saint Louis','New Mexico St.'],
+					[55,68,7,'First Round','Oklahoma St.','Oregon'],
+					[84,72,1,'First Round','Colorado St.','Missouri'],
+					[79,48,15,'First Round','Louisville','N.C. A&T'],
+					[64,61,7,'First Round','California','UNLV'],
+					[68,56,5,'First Round','Butler','Bucknell'],
+					[65,54,11,'First Round','Michigan St.','Valparaiso'],
+					[71,80,0,'First Round','Boise St.','La Salle'],
+					],
+
+				"2012": [
+					[67,59,1,"Championship","Kentucky","Kansas"],
+					[64,62,0,"Final Four","Kansas","Ohio St."],
+					[69,61,3,"Final Four","Kentucky","Louisville"],
+					[67,80,1,"Elite Eight","North Carolina","Kansas"],
+					[82,70,2,"Elite Eight","Kentucky","Baylor"],
+					[70,77,1,"Elite Eight","Syracuse","Ohio St."],
+					[72,68,3,"Elite Eight","Louisville","Florida"],
+					[102,90,3,"Sweet Sixteen","Kentucky ","Indiana"],
+					[75,70,7,"Sweet Sixteen","Baylor","Xavier"],
+					[60,57,9,"Sweet Sixteen","Kansas","North Carolina St."],
+					[73,65,12,"Sweet Sixteen","North Carolina","Ohio"],
+					[58,68,4,"Sweet Sixteen","Marquette","Florida"],
+					[44,57,3,"Sweet Sixteen","Michigan St.","Louisville"],
+					[64,63,3,"Sweet Sixteen","Syracuse","Wisconsin"],
+					[81,66,4,"Sweet Sixteen","Ohio St.","Cincinnati"],
+					[56,62,3,"Second Round","Florida St.","Cincinnati"],
+					[63,60,8,"Second Round","Kansas","Purdue"],
+					[84,50,8,"Second Round","Florida","Norfolk St."],
+					[70,58,5,"Second Round","Xavier","Lehigh"],
+					[87,73,7,"Second Round","North Carolina","Creighton"],
+					[65,61,8,"Second Round","Michigan St.","Saint Louis"],
+					[63,66,8,"Second Round","Georgetown","North Carolina St."],
+					[56,62,1,"Second Round","South Fla.","Ohio"],
+					[60,57,1,"Second Round","Wisconsin","Vanderbilt"],
+					[75,59,7,"Second Round","Syracuse","Kansas St."],
+					[59,56,1,"Second Round","Louisville","New Mexico"],
+					[63,61,8,"Second Round","Indiana","VCU"],
+					[87,71,7,"Second Round","Kentucky","Iowa St."],
+					[62,53,3,"Second Round","Marquette","Murray St."],
+					[80,63,8,"Second Round","Baylor","Colorado"],
+					[73,66,5,"Second Round","Ohio St.","Gonzaga"],
+					[65,50,13,"First Round","Kansas","Detroit"],
+					[70,75,13,"First Round","Duke","Lehigh"],
+					[77,58,15,"First Round","North Carolina","Vermont"],
+					[89,67,15,"First Round","Michigan St.","LIU Brooklyn"],
+					[54,61,1,"First Round","Memphis","Saint Louis"],
+					[74,59,11,"First Round","Georgetown","Belmont"],
+					[65,79,5,"First Round","San Diego St.","North Carolina St."],
+					[44,58,7,"First Round","Temple","South Fla."],
+					[69,72,3,"First Round","St. Mary's (CA)","Purdue"],
+					[84,86,13,"First Round","Missouri","Norfolk St."],
+					[60,65,9,"First Round","Michigan","Ohio"],
+					[71,45,3,"First Round","Florida","Virginia"],
+					[58,57,1,"First Round","Creighton","Alabama"],
+					[66,63,9,"First Round","Florida St.","St. Bonaventure"],
+					[65,59,5,"First Round","Cincinnati","Texas"],
+					[66,79,9,"First Round","New Mexico St.","Indiana"],
+					[62,59,7,"First Round","VCU","Wichita St."],
+					[75,68,7,"First Round","New Mexico","Long Beach St."],
+					[69,62,9,"First Round","Louisville","Davidson"],
+					[73,49,9,"First Round","Wisconsin","Montana"],
+					[68,60,11,"First Round","Baylor","South Dakota St."],
+					[72,65,15,"First Round","Syracuse","UNC Asheville"],
+					[78,59,13,"First Round","Ohio St.","Loyola Maryland"],
+					[77,54,3,"First Round","Gonzaga","West Virginia"],
+					[70,64,1,"First Round","Kansas St.","Southern Miss."],
+					[77,64,1,"First Round","Iowa St.","Connecticut"],
+					[81,66,15,"First Round","Kentucky","Western Ky."],
+					[88,68,11,"First Round","Marquette","BYU"],
+					[58,41,5,"First Round","Murray St.","Colorado St."],
+					[79,70,7,"First Round","Vanderbilt","Harvard"],
+					[64,68,5,"First Round","UNLV","Colorado"],
+					[63,67,3,"First Round","Notre Dame","Xavier"],
+				]
+			};
+
+			d3.select('#chart svg')
+  				.append("text")
+  				.attr("x", 200)             
+  				.attr("y", 100)
+  				.attr("text-anchor", "middle")  
+  				.text("Sample Charts");
+
+			var year = "2015"
+			var padding = 60;
+			var w = 550;
+			var h = 550;
+			var op = 0.8;
+			var svg = d3.select("body")
+						.append("svg")
+						.attr("width", w)
+						.attr("height", h)
+			var xScale = d3.scale.linear()
+								// .domain([30, d3.max(dataset, function(d) { return d[1]; })])
+								.domain([30, 100])
+                     			.range([padding, w - padding]);
+			var yScale = d3.scale.linear()
+			                     // .domain([30, d3.max(dataset, function(d) { return d[0]; })])
+ 								.domain([30, 100])
+			                    .range([h - padding, padding]);
+      		var xAxis = d3.svg.axis()
+      						.scale(xScale)
+      						.orient("bottom")
+      						.ticks(9);
+      		var yAxis = d3.svg.axis()
+      						.scale(yScale)
+      						.orient("left")
+      						.ticks(9);
+			var line = svg.append("line")
+		 				.attr("x1", padding)
+		                .attr("y1", h-padding)
+		                .attr("x2", h-padding)
+		                .attr("y2", padding)
+		                .attr("stroke-width", 0.5)
+		                .style("stroke-dasharray", ("5,3"))
+		                .attr("stroke", "black");
+    		var underdog = svg.append("text")
+					    .attr("class", "x label")
+					    .attr("text-anchor", "end")
+					    .attr("x", w - padding)
+					    .attr("y", h - 20)
+					    .text("Underdog Score");
+			var favorite = svg.append("text")
+							.attr("class", "y label")
+							.attr("text-anchor", "middle")
+							.attr("y", 20)
+							.attr("dy", 0)
+							.attr("x", -105)
+							.attr("transform", "rotate(-90)")
+							.text("Favorite Score");
+			var tooltip = d3.select("body").append("div")
+						    .attr("class", "tooltip")
+						    .style("opacity", 1);
+			// setup fill color
+			var cValue = function(d) { return d[3];},
+			    color = d3.scale.category10();
+			var circle = svg.selectAll("circle")
+				.data(dataset[year])
+				.enter()
+				.append("circle")
+				.attr("cx", function(d) {
+					return xScale(d[1]);
+				})
+				.attr("cy", function(d) {
+					return yScale(d[0]);
+				})
+				.attr("r", function(d) {
+					return (5*(Math.log((d[2]+2.01)/2))+1.5);
+				})
+      			.style("fill", function(d) { return color(cValue(d));})
+		        .attr("stroke-width", 0.5)
+		        .attr("stroke", "black")
+                .attr("data-species", function(d) {
+                	return d[3];
+                })
+                .style("opacity", 0)
+      			.on("mouseover", function(d) {
+          			tooltip.transition()
+               			.duration(200)
+               			.style("opacity", op);
+          			tooltip.html(d[4]+": "+d[0]+"<br/> "+d[5]+": "+d[1])
+               			.style("left", (d3.event.pageX + 5) + "px")
+               			.style("top", (d3.event.pageY - 28) + "px");
+      			})
+      			.on("mouseout", function(d) {
+          			tooltip.transition()
+               		.duration(600)
+               		.style("opacity", 0); });
+				// .sort(order);
+
+			circle.transition()
+			    .duration(1000)
+			    .style('opacity', op);
+
+
+      		svg.append("g")
+      			.attr("class","axis")
+      			.attr("transform","translate(0," + (h - padding) + ")")
+    			.call(xAxis);
+     		svg.append("g")
+      			.attr("class","axis")
+      			.attr("transform", "translate(" + padding + ",0)")
+    			.call(yAxis);
+			var legend = svg.append("g")
+				.attr("class", "legend")
+				.attr("width", 50)
+				.attr("height", 50)
+				.selectAll("g")
+				.data(color.domain())
+				.enter().append("g")
+				.attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+			legend.append("rect")
+				.attr("width", 18)
+				.attr("height", 18)
+				.attr("x", 390)
+				.attr("y", 300+60)
+				.style("fill", color)
+                .style("opacity", 0.7)
+				.on("click", function (d) {
+					circle.filter(function () {
+						return this.dataset.species === d;
+					})
+					.transition().duration(750)
+					.style("opacity", function () {
+						console.log(this.style.opacity);
+						return (parseFloat(this.style.opacity)) ? 0 : op;
+					});
+				});
+		      
+			legend.append("text")
+   				  .attr("x", 410)
+				  .attr("y", 309+60)
+			      .attr("dy", ".35em")
+			      .text(function(d) { return d; });
+			var legend2 = svg.append("g")
+				    .attr("class", "legend")
+				    .attr("transform", "translate(" + (width - 50) + "," + (height - 20) + ")")
+				  .selectAll("g")
+				    .data([1e6, 5e6, 1e7])
+				  .enter().append("g");
+
+			legend2.append("circle")
+				    .attr("cy", function(d) { return -radius(d); })
+				    .attr("r", radius);
+
+			legend2.append("text")
+				    .attr("y", function(d) { return -2 * radius(d); })
+				    .attr("dy", "1.3em")
+				    .text(d3.format(".1s"));
+
+			function outputUpdate(i) {
+				document.querySelector('#year').innerHTML = i;
+				// circle.style("opacity",0);
+
+				// circle.transition().duration(2000).style("opacity",0);
+				circle.data(dataset[String(i)])
+						.style("opacity",0)
+						.attr("cx", function(d) { return xScale(d[1]); })
+						.attr("cy", function(d) { return yScale(d[0]); })
+						.attr("r", function(d) { return (5*(Math.log((d[2]+2.01)/2))+1.5); })
+						.transition().duration(1000).style("opacity",op);
+						;
+						// circle.transition().duration(2000).style("opacity",0.85);
+						// .transition().duration(750);
+			}
+		</script>
+		<label for="fader">Year</label>
+		<input id="slider1" type="range" min="2008" max="2015" step="1" value="2015" oninput="outputUpdate(value)">
+		<output for="fader" id="year">2015</output>
+
+	</body>
+</html>
