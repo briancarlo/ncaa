@@ -180,9 +180,72 @@
 					[59,60,5,'First Round','Ohio St.','Dayton'],
 				],
 				"2013": [
-					[85,77,1,"First Round","a","b"],
-					[50,51,8,"Championship","a","b"],
-				],
+					[82,76,3,'Championship','Louisville','Michigan'],
+					[61,56,0,'Final Four','Michigan','Syracuse'],
+					[72,68,8,'Final Four','Louisville','Wichita St.'],
+					[59,79,1,'Elite Eight','Florida','Michigan'],
+					[85,63,1,'Elite Eight','Louisville','Duke'],
+					[55,39,1,'Elite Eight','Syracuse','Marquette'],
+					[66,70,7,'Elite Eight','Ohio St.','Wichita St.'],
+					[62,50,12,'Sweet Sixteen','Florida','FGCU'],
+					[85,87,3,'Sweet Sixteen','Kansas','Michigan'],
+					[71,61,1,'Sweet Sixteen','Duke','Michigan St.'],
+					[77,69,11,'Sweet Sixteen','Louisville','Oregon'],
+					[61,71,1,'Sweet Sixteen','Miami (FL)','Marquette'],
+					[50,61,3,'Sweet Sixteen','Indiana','Syracuse'],
+					[73,70,4,'Sweet Sixteen','Ohio St.','Arizona'],
+					[72,58,4,'Sweet Sixteen','Wichita St.','La Salle'],
+					[63,59,5,'Second Round','Miami (FL)','Illinois'],
+					[58,52,8,'Second Round','Indiana','Temple'],
+					[71,81,8,'Second Round','San Diego St.','FGCU'],
+					[78,64,8,'Second Round','Florida','Minnesota'],
+					[70,58,7,'Second Round','Kansas','North Carolina'],
+					[78,75,8,'Second Round','Ohio St.','Iowa St.'],
+					[74,76,1,'Second Round','Ole Miss','La Salle'],
+					[66,50,5,'Second Round','Duke','Creighton'],
+					[74,72,3,'Second Round','Marquette','Butler'],
+					[66,60,8,'Second Round','Syracuse','California'],
+					[78,53,1,'Second Round','Michigan','VCU'],
+					[74,51,8,'Second Round','Arizona','Harvard'],
+					[70,76,8,'Second Round','Gonzaga','Wichita St.'],
+					[70,48,3,'Second Round','Michigan St.','Memphis'],
+					[57,74,8,'Second Round','Saint Louis','Oregon'],
+					[82,56,7,'Second Round','Louisville','Colorado St.'],
+					[63,83,5,'First Round','UCLA','Minnesota'],
+					[78,49,13,'First Round','Miami (FL)','Pacific'],
+					[57,49,3,'First Round','Illinois','Colorado'],
+					[72,76,1,'First Round','North Carolina St.','Temple'],
+					[83,62,15,'First Round','Indiana','James Madison'],
+					[79,47,11,'First Round','Florida','Northwestern St.'],
+					[78,71,1,'First Round','North Carolina','Villanova'],
+					[64,57,15,'First Round','Kansas','Western Ky.'],
+					[95,70,13,'First Round','Ohio St.','Iona'],
+					[58,76,3,'First Round','Notre Dame','Iowa St.'],
+					[61,63,9,'First Round','Kansas St.','La Salle'],
+					[46,57,7,'First Round','Wisconsin','Ole Miss'],
+					[70,55,3,'First Round','San Diego St.','Oklahoma'],
+					[68,78,13,'First Round','Georgetown','FGCU'],
+					[67,63,3,'First Round','Creighton','Cincinnati'],
+					[73,61,13,'First Round','Duke','Albany (NY)'],
+					[71,56,9,'First Round','Michigan','South Dakota St.'],
+					[59,58,11,'First Round','Marquette','Davidson'],
+					[81,34,9,'First Round','Syracuse','Montana'],
+					[88,42,7,'First Round','VCU','Akron'],
+					[62,68,11,'First Round','New Mexico','Harvard'],
+					[81,64,5,'First Round','Arizona','Belmont'],
+					[73,55,1,'First Round','Wichita St.','Pittsburgh'],
+					[64,58,15,'First Round','Gonzaga','Southern U.'],
+					[54,52,5,'First Round','Memphis',"St. Mary's (CA)"],
+					[64,44,9,'First Round','Saint Louis','New Mexico St.'],
+					[55,68,7,'First Round','Oklahoma St.','Oregon'],
+					[84,72,1,'First Round','Colorado St.','Missouri'],
+					[79,48,15,'First Round','Louisville','N.C. A&T'],
+					[64,61,7,'First Round','California','UNLV'],
+					[68,56,5,'First Round','Butler','Bucknell'],
+					[65,54,11,'First Round','Michigan St.','Valparaiso'],
+					[71,80,0,'First Round','Boise St.','La Salle'],
+					],
+
 				"2012": [
 					[67,59,1,"Championship","Kentucky","Kansas"],
 					[64,62,0,"Final Four","Kansas","Ohio St."],
@@ -386,32 +449,23 @@
 				.range([
 						"#85F9FA",
 						"#AEDC91",
-						"#F3E4C0",
-						"#DC8D86",
 						"#B582FA",
-						"#DC6000"
+						"#DC8D86",
+						"#F3E4C0",
+						"#1107FA"
 						])
 
 			var circle = svg.selectAll("circle")
 				.data(dataset[year])
 				.enter()
 				.append("circle")
-				.attr("cx", function(d) {
-					return xScale(d[1]);
-				})
-				.attr("cy", function(d) {
-					return yScale(d[0]);
-				})
-				.attr("r", function(d) {
-					return (5*(Math.log(d[2])/2)+1.5);
-				})
       			.style("fill", function(d) { return color(cValue(d));})
-		        .attr("stroke-width", 0.5)
-		        .attr("stroke", "black")
+		        .attr("stroke-width", 0.5).attr("stroke", "black")
                 .attr("data-species", function(d) {
                 	return d[3];
                 })
                 .style("opacity", 0)
+                .call(position)
       			.on("mouseover", function(d) {
           			tooltip.transition()
                			.duration(200)
@@ -430,6 +484,17 @@
 			    .duration(1000)
 			    .style('opacity', op);
 
+			function position(circle) {
+				circle.attr("cx", function(d) {
+					return xScale(d[1]);
+				})
+				.attr("cy", function(d) {
+					return yScale(d[0]);
+				})
+				.attr("r", function(d) {
+					return (5*(Math.log((d[2]+2.01)/2))+1.5);
+				})
+			}
 
       		svg.append("g")
       			.attr("class","axis")
@@ -500,25 +565,13 @@
 
 			function outputUpdate(i) {
 				document.querySelector('#year').innerHTML = i;
-				fadeOut();
-				// circle.style("opacity",0);
-
-				// circle.transition().duration(2000).style("opacity",0);
-				// circle.transition().duration(2000).style("opacity",0);
 				circle.data(dataset[String(i)])
-						// .style("opacity",0)
-						.attr("cx", function(d) { return xScale(d[1]); })
-						.attr("cy", function(d) { return yScale(d[0]); })
-						.attr("r", function(d) { return (5*(Math.log(d[2])/2)+1.5); })
-						// .transition()
-						// .duration(2000)
-						// .each(function() { circle.call(fadeOut).call(fadeIn); })
+						.call(position)
 						.transition().duration(1000).style("opacity",op);
-						// circle.transition().duration(2000).style("opacity",0.85);
 			}
 		</script>
 		<label for="fader">Year</label>
-		<input id="slider1" type="range" min="2008" max="2015" step="1" value="2015" oninput="outputUpdate(value)">
+		<input id="slider1" type="range" min="2011" max="2015" step="1" value="2015" oninput="outputUpdate(value)">
 		<output for="fader" id="year">2015</output>
 
 	</body>
