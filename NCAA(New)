@@ -6,6 +6,7 @@
 		<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 		<script src="html5-dataset.js"></script>
 		<style type="text/css">
+
 			.axis path,
 			.axis line {
 				fill: none;
@@ -46,12 +47,17 @@
 	</head>
 	<body>
 		<div id="title">
-			<h1>NCAA Men's Basketball Tournament</h1>
+			<h1 style="font-weight:lighter;">NCAA Men's Basketball Tournament</h1>
+			<h4 style="margin-top:-15px;font-weight:lighter;">Each dot represents one game played.
+			Games centered below the dotted line are upsets.<br>The larger the dot, the larger the upset. The farther from the dotted line, the bigger the blowout.<br>
+			Use the slider below to explore.
+			</h4>
+
 		</div>
 		<div id="scroll" style="position:absolute;padding-left:180px;">
 			<label for="fader">2011</label>
 			<input id="slider1" type="range" min="2011" max="2015" step="1" value="2015" oninput="outputUpdate(value)">
-			<div id="big_year" style="position:absolute;padding-left:120px;padding-top:380px;font-size:100px;opacity:0.3;z-index:-1">
+			<div id="big_year" style="position:absolute;padding-left:120px;padding-top:370px;font-size:100px;opacity:0.3;z-index:-1">
 				<output for="fader" id="year">2015</output>
 			</div>
 			<label for="fader">2015</label>
@@ -359,7 +365,7 @@
 					[65,48,1,"Second Round","Richmond","Morehead St."],
 					[85,81,9,"First Round","Texas","Oakland"],
 					[68,65,3,"First Round","Washington","Georgia"],
-					[102,87,13,"First Round","North Carolina 1","Long Island"],
+					[102,87,13,"First Round","North Carolina","Long Island"],
 					[87,45,15,"First Round","Duke","Hampton"],
 					[75,45,1,"First Round","Michigan","Tennessee"],
 					[77,60,11,"First Round","Syracuse","Indiana St."],
@@ -662,7 +668,7 @@
 			function outputUpdate(i) {
 				document.querySelector('#year').innerHTML = i;
 				circle.data(dataset[String(i)])
-						.transition().duration(2000).style("opacity",op)
+						.transition().duration(1000).style("opacity",op).ease("linear")
 						.call(position);
 			}
 		</script>
